@@ -2,7 +2,7 @@
 
 ## OpenAI Gym  环境的安装
 
-###假如已经安装python3.5+  可以通过以下两种方式简单安装gym环境###
+<u假如已经安装python3.5+  可以通过以下两种方式简单安装gym环境></u>
 
 ```
 pip install gym
@@ -61,5 +61,4 @@ pip install -e .[atari]
 
 
 
-[http://gym.openai.com/docs/]: 		"更多的关于gym环境的documents："
-
+> "更多的关于gym环境的documents：" http://gym.openai.com/docs/
