@@ -1,8 +1,12 @@
 
 
+
+
 ## OpenAI Gym  环境的安装
 
-<u假如已经安装python3.5+  可以通过以下两种方式简单安装gym环境></u>
+**假如已经安装python3.5+  可以通过以下两种方式简单安装gym环境**
+
+
 
 ```
 pip install gym
@@ -27,9 +31,10 @@ env.reset()
 for _ in range(1000):
     env.render()
     env.step(env.action_space.sample()) # take a random action
+    
 ```
 
-
+![](C:\Users\xiaohao\Desktop\Capture.JPG)
 
 
 
