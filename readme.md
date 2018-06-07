@@ -6,7 +6,7 @@
 
 ------
 
-**假如已经安装python3.5+  可以通过以下两种方式简单安装gym环境**
+##### **假如已经安装python3.5+  可以通过以下两种方式简单安装gym环境**
 
 
 
@@ -77,7 +77,7 @@ pip install -e .[atari]
 
 
 
-##### 1, Random Policy
+##### 1*, <u>Random Policy</u>*
 
 为了方便计算 我们人为设置 discount factor 为 0.99，reward 为 -1 当步骤是一个episode 的最后一步时，否则 reward 为 0，设置一个episode步长上限为300 `env._max_episode_steps = 300`. PS(以上设置仅针对Cart-Pole游戏成立)
 
@@ -87,9 +87,9 @@ py文件分别在文件夹three-random-episode和 hundred-random-episode
 
 可以通过`env.render()`打开flash 观察游戏的进程。平均步长和回报大概分别是22、-0.81.
 
-##### 2， batch(offline)Q-learning
+##### 2，*batch (offline) Q-learning*
 
-先收集2000个随机策略下的episodes 数据, 然后仅仅基于收集好的数据，通过直接训练动作值函数$Q(s; a)$来学习控制平衡杆，在这里我们分别用一个 线性转换 和一个单层隐藏层(神经元数为100)的前馈神经网络来表达动作值函数，尝试的学习率分别是[$10^{-5},10^{-4},10^{-3},10^{-2},10^{-1},0.5,$]. 总的训练模型、更新参数次数为5000，每次训练的数据量为1000;学习率、优化器分别是 0.001 和Adam.
+先收集2000个随机策略下的episodes 数据, 然后仅仅基于收集好的数据，通过直接训练动作值函数 $Q(s; a)$ 来学习控制平衡杆，在这里我们分别用一个 线性转换 和一个单层隐藏层(神经元数为100)的前馈神经网络来表达动作值函数，尝试的学习率分别是$[10^{-5},10^{-4},10^{-3},10^{-2},10^{-1},0.5,].$ 总的训练模型、更新参数次数为5000，每次训练的数据量为1000;学习率、优化器分别是 0.001 和Adam.
 
 实验发现，相对前馈神经网络，训练过程中线性转换的动作值函数能更快、高校的控制平衡杆达到300步，但极易overfitting，相反前馈神经网络表现的学习过程表现的更稳定，最终的学习效果也更好，
 
@@ -105,7 +105,13 @@ py文件分别在文件夹three-random-episode和 hundred-random-episode
 
 ![](learning_curve/batch_Q_learning_neural_0.0001_length.png)
 
-![](learnging_curve/batch_Q_learning_neural_0.0001_reward.png )
+
+
+
+
+
+
+![](learnging_curve/batch_Q_learning_neural_0.0001_reward.png)
 
 
 
@@ -120,6 +126,8 @@ py文件分别在文件夹three-random-episode和 hundred-random-episode
 根据2中的 经验 学习率、优化器分别是 0.001，Adam；其它的设置与2中的单隐藏层前馈神经网络一致。更多的,为了防止初始化参数带来的偏差, 我们训练一百个模型, 观察平均的步长和回报
 
 ![](learning_curve/online_Q_learning_neural_0.001_length.png)
+
+
 
 ![](learning_curve/online_Q_learning_neural_0.001_reward.png)
 
@@ -160,7 +168,7 @@ $$
 
 **其中在Q-learning 中仅加入 Experience Replay效果如下:**
 
-![](learning_curve/experience_replay_length.png)
+![]((learning_curve/experience_replay_length.png)
 
 ![](learning_curve/experience_replay_reward.png)
 
@@ -176,12 +184,15 @@ $$
 
 而在double Q-learning 里,为了减少因为目标Q值里 max Q值计算带来的计算偏差，或者称为过度估计（over estimation）问题，用当前的Q网络来选择动作，用目标Q网络来计算目标Q。
 
-![](learning_curve/DQN_PICTURE)
+![](learning_curve/DQN_PICTURE.JPG)
 
-![](learning_curve/double_Q_learning_length)
-![](learning_curve/double_Q_learning_reward)
+![](learning_curve/double_Q_learning_length.png)
+
+![](learning_curve/double_Q_learning_reward.png)
 
 #### Atari Game(pong、Boxing、Mspacman)
+
+
 
 ##### Random Policy
 
