@@ -95,23 +95,17 @@ py文件分别在文件夹three-random-episode和 hundred-random-episode
 
 ***learning rate =0.001，linear transformation***
 
-![](Capture.JPG)
+![](learning_curve/batch_Q_learning_linear_0.001_length.png)
 
-![](C:\Users\xiaohao\Desktop\上传Github\Assignment_3 ADML\assignment3_adml\CartPole\offline-batch-Q-learning\linear\LR_0.001\figure_1-1.png)
+![](learning_curve/batch_Q_learning_linear_0.001_reward.png)
 
 
 
 *** learning_rate=0.0001,hidden layer(100) { linear transformation + ReLU }***
 
-![figure_1](C:\Users\xiaohao\Desktop\上传Github\Assignment_3 ADML\assignment3_adml\CartPole\offline-batch-Q-learning\neural_model\LR_0.0001\figure_1.png)
+![](batch_Q_learning_neural_0.0001_length.png)
 
-
-
-
-
-
-
-![figure_1-1](C:\Users\xiaohao\Desktop\上传Github\Assignment_3 ADML\assignment3_adml\CartPole\offline-batch-Q-learning\neural_model\LR_0.0001\figure_1-1.png)
+![](batch_Q_learning_neural_0.0001_reward.png )
 
 
 
@@ -125,11 +119,9 @@ py文件分别在文件夹three-random-episode和 hundred-random-episode
 
 根据2中的 经验 学习率、优化器分别是 0.001，Adam；其它的设置与2中的单隐藏层前馈神经网络一致。更多的,为了防止初始化参数带来的偏差, 我们训练一百个模型, 观察平均的步长和回报
 
-![平均回报](C:\Users\xiaohao\Desktop\上传Github\Assignment_3 ADML\assignment3_adml\CartPole\online-Q-learning\figure_1-2.png)
+![](online_Q_learning_neural_0.001_length.png)
 
-
-
-![平均步长](C:\Users\xiaohao\Desktop\上传Github\Assignment_3 ADML\assignment3_adml\CartPole\online-Q-learning\figure_1-4.png)
+![](online_Q_learning_neural_0.001_reward.png)
 
 虽然，每个episode 的平均步长为120还远远未到达目标步长300，但从学习曲线得知, 我们的模型一直在学习如何更好的控制平衡杆, 随着训练时间的增加, 会逐渐接近设定的目标, 相比于offline Q-learning,  online Q-learning 会更稳定的收敛,  虽然消耗的训练时间更多. 
 
@@ -168,15 +160,15 @@ $$
 
 **其中在Q-learning 中仅加入 Experience Replay效果如下:**
 
-![](C:\Users\xiaohao\Desktop\上传Github\Assignment_3 ADML\assignment3_adml\CartPole\experience_replay\$RTU8DU8.png)
+![](experience_replay_length.png)
 
-![](C:\Users\xiaohao\Desktop\上传Github\Assignment_3 ADML\assignment3_adml\CartPole\experience_replay\$RP9HPHP.png)
+![](experience_replay_reward.png)
 
 ***在 Q-learning中仅加入Target Parameter机制***
 
-![](C:\Users\xiaohao\Desktop\上传Github\Assignment_3 ADML\assignment3_adml\CartPole\target-parameter\length71.png)
+![](target_parameter_length.png)
 
-![](C:\Users\xiaohao\Desktop\上传Github\Assignment_3 ADML\assignment3_adml\CartPole\target-parameter\reward71.png)
+![](target_parameter_reward.png)
 
 ##### Double Q-learning
 
