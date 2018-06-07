@@ -101,7 +101,7 @@ py文件分别在文件夹three-random-episode和 hundred-random-episode
 
 
 
-*** learning_rate=0.0001,hidden layer(100) { linear transformation + ReLU }***
+***learning_rate=0.0001,hidden layer(100) { linear transformation + ReLU }***
 
 ![](learning_curve/batch_Q_learning_neural_0.0001_length.png)
 
@@ -111,7 +111,7 @@ py文件分别在文件夹three-random-episode和 hundred-random-episode
 
 
 
-![](learnging_curve/batch_Q_learning_neural_0.0001_reward.png)
+![](learning_curve/batch_Q_learning_neural_0.0001_reward.png)
 
 
 
@@ -168,7 +168,7 @@ $$
 
 **其中在Q-learning 中仅加入 Experience Replay效果如下:**
 
-![]((learning_curve/experience_replay_length.png)
+![](learning_curve/experience_replay_length.png)
 
 ![](learning_curve/experience_replay_reward.png)
 
