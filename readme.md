@@ -6,7 +6,7 @@
 
 ------
 
-##### **假如已经安装python3.5+  可以通过以下两种方式简单安装gym环境**
+**假如已经安装python3.5+  可以通过以下两种方式简单安装gym环境**
 
 
 
@@ -160,7 +160,7 @@ $$
 
 **其中在Q-learning 中仅加入 Experience Replay效果如下:**
 
-![](learng_curve/experience_replay_length.png)
+![](learning_curve/experience_replay_length.png)
 
 ![](learning_curve/experience_replay_reward.png)
 
