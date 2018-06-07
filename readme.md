@@ -95,7 +95,7 @@ py文件分别在文件夹three-random-episode和 hundred-random-episode
 
 ***learning rate =0.001，linear transformation***
 
-![](C:\Users\xiaohao\Desktop\上传Github\Assignment_3 ADML\assignment3_adml\CartPole\offline-batch-Q-learning\linear\LR_0.001\figure_1.png)
+![](Capture.JPG)
 
 ![](C:\Users\xiaohao\Desktop\上传Github\Assignment_3 ADML\assignment3_adml\CartPole\offline-batch-Q-learning\linear\LR_0.001\figure_1-1.png)
 
