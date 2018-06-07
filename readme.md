@@ -103,9 +103,9 @@ py文件分别在文件夹three-random-episode和 hundred-random-episode
 
 *** learning_rate=0.0001,hidden layer(100) { linear transformation + ReLU }***
 
-![](batch_Q_learning_neural_0.0001_length.png)
+![](learning_curve/batch_Q_learning_neural_0.0001_length.png)
 
-![](batch_Q_learning_neural_0.0001_reward.png )
+![](learnging_curve/batch_Q_learning_neural_0.0001_reward.png )
 
 
 
@@ -119,9 +119,9 @@ py文件分别在文件夹three-random-episode和 hundred-random-episode
 
 根据2中的 经验 学习率、优化器分别是 0.001，Adam；其它的设置与2中的单隐藏层前馈神经网络一致。更多的,为了防止初始化参数带来的偏差, 我们训练一百个模型, 观察平均的步长和回报
 
-![](online_Q_learning_neural_0.001_length.png)
+![](learning_curve/online_Q_learning_neural_0.001_length.png)
 
-![](online_Q_learning_neural_0.001_reward.png)
+![](learning_curve/online_Q_learning_neural_0.001_reward.png)
 
 虽然，每个episode 的平均步长为120还远远未到达目标步长300，但从学习曲线得知, 我们的模型一直在学习如何更好的控制平衡杆, 随着训练时间的增加, 会逐渐接近设定的目标, 相比于offline Q-learning,  online Q-learning 会更稳定的收敛,  虽然消耗的训练时间更多. 
 
@@ -160,15 +160,15 @@ $$
 
 **其中在Q-learning 中仅加入 Experience Replay效果如下:**
 
-![](experience_replay_length.png)
+![](learng_curve/experience_replay_length.png)
 
-![](experience_replay_reward.png)
+![](learning_curve/experience_replay_reward.png)
 
 ***在 Q-learning中仅加入Target Parameter机制***
 
-![](target_parameter_length.png)
+![](learning_curve/target_parameter_length.png)
 
-![](target_parameter_reward.png)
+![](learning_curve/target_parameter_reward.png)
 
 ##### Double Q-learning
 
@@ -176,11 +176,10 @@ $$
 
 而在double Q-learning 里,为了减少因为目标Q值里 max Q值计算带来的计算偏差，或者称为过度估计（over estimation）问题，用当前的Q网络来选择动作，用目标Q网络来计算目标Q。
 
-![](C:\Users\xiaohao\Desktop\Capture.JPG)
+![](learning_curve/DQN_PICTURE)
 
-![](C:\Users\xiaohao\Desktop\上传Github\Assignment_3 ADML\assignment3_adml\CartPole\double-q-learning\length81.png)
-
-![](C:\Users\xiaohao\Desktop\上传Github\Assignment_3 ADML\assignment3_adml\CartPole\double-q-learning\reward81.png)
+![](learning_curve/double_Q_learning_length)
+![](learning_curve/double_Q_learning_reward)
 
 #### Atari Game(pong、Boxing、Mspacman)
 
