@@ -1,5 +1,5 @@
 # 经典强化学习算法在CartPole和几个Atari游戏的实现
-<a href="https://www.codecogs.com/eqnedit.php?latex=[S_{t},S_{t&plus;1},A,R]" target="_blank"></a>
+\[[S{t},S{t+1},A,R]]\
 
 
 ### OpenAI Gym  环境的安装
