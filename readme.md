@@ -2,7 +2,7 @@
 
 
 
-### OpenAI Gym  环境的安装
+## OpenAI Gym  环境的安装
 
 ------
 
@@ -67,9 +67,17 @@ pip install -e .[atari]
 
 > "更多的关于gym环境的documents：" http://gym.openai.com/docs/
 
-### 项目实现步骤
 
-#### Cart-Pole 游戏:
+
+
+
+## 项目实现步骤
+
+------
+
+### Cart-Pole 游戏:
+
+
 
 首先我们搭建、调通一些经典的强化学习算法, 包括batch(offline) Q-learng、online Q-learning、Deep Q-Network, Double-Q-learning, 在经典的平衡杆(Cart-Pole )游戏测试每个算法的表现.
 
@@ -79,7 +87,11 @@ pip install -e .[atari]
 
 
 
+
+
 #### Random Policy
+
+
 
 为了方便计算 我们人为设置 discount factor 为 0.99, reward 为 -1 当步骤是一个episode 的最后一步时, 否则 reward 为 0, 设置一个episode步长上限为300 `env._max_episode_steps = 300`.  PS(以上设置仅针对Cart-Pole游戏成立)
 
@@ -89,11 +101,19 @@ py文件分别在文件夹three-random-episode和 hundred-random-episode
 
 可以通过`env.render()`打开flash 观察游戏的进程. 平均步长和回报大概分别是22、-0.81.
 
+
+
+
+
 #### batch (offline) Q-learning
+
+
 
 先收集2000个随机策略下的episodes 数据, 然后仅仅基于收集好的数据, 通过直接训练动作值函数  <img src="https://latex.codecogs.com/gif.latex?Q(S;A)" title="Q(S;A)" />  来学习控制平衡杆, 在这里我们分别用一个 线性转换 和仅含单层隐藏层(神经元数为100)的前馈神经网络来表达动作值函数, 尝试的学习率分别是  <img src="https://latex.codecogs.com/gif.latex?[10^{-5},10^{-4},10^{-3},10^{-2},10^{-1},0.5]" title="[10^{-5},10^{-4},10^{-3},10^{-2},10^{-1},0.5]" />  总的训练、更新参数次数为5000，每次训练的数据量为1000; 学习率、优化器分别是 0.001 和Adam.
 
 实验发现, 相对前馈神经网络, 训练过程中线性转换的动作值函数能更快的控制平衡杆达到300步, 但极易overfitting, 相反前馈神经网络的学习过程表现的更稳定, 最终的学习效果也更好.
+
+
 
 ***learning rate =0.001，linear transformation***
 
@@ -119,7 +139,11 @@ py文件分别在文件夹three-random-episode和 hundred-random-episode
 
 
 
+
+
 #### online Q-learning
+
+
 
 从这里开始我们将仅仅使用神经网络来近似动作值函数,
 
@@ -128,6 +152,8 @@ py文件分别在文件夹three-random-episode和 hundred-random-episode
 为了让模型更好、更快的学习, 在训练过程中, 我们采用 epsilon-greedy Q-learning 算法, epsilon rate=0.05, 即有0.05 的概率使用随机策略, 而在测试过程中则全部采用值函数给出的action.
 
 根据之前的经验,  学习率、优化器分别是 0.001, Adam；其它的设置与之前的单隐藏层前馈神经网络一致. 更多的,为了防止初始化参数带来的偏差, 我们训练一百个模型, 观察平均的步长和回报
+
+
 
 ***online Q-learning 的学习曲线***
 
@@ -145,7 +171,13 @@ PS:　Note that with the automatic gradient computation in tensorflow,you must a
 
 <img src="https://latex.codecogs.com/gif.latex?loss=0.5*\delta^{2}" title="loss=0.5*\delta^{2}" />
 
+
+
+
+
 #### Different Neural Size 
+
+
 
 这里我们使用不同的neural size, 测试online Q-learning的性能
 
@@ -155,7 +187,13 @@ neural size=30
 
 neural size=1000
 
+
+
+
+
 #### Experience Replay and Target Parameter
+
+
 
 Deep Q-NetWork 是近些年提出的一种增强学习模型, 相比于传统的Q-learning 算法, 其增加了两个重要的机制：经验回放、目标函数参数固定.
 
@@ -168,6 +206,8 @@ NIPS DQN在基本的Deep Q-Learning算法的基础上使用了Experience Replay�
 如上面的损失函数公式所示, 计算目标Q值的函数使用的参数是<img src="https://latex.codecogs.com/gif.latex?w^{-}" title="w^{-}" />,相比之下, Nips 版本DQN 的 目标Q网络是随着Q网络实时更新的, 这样会导致 目标Q值与当前的Q值相关性较大, 容易造成过度估计（over estimation）问题
 
  因此提出单独使用一个目标Q网络. 那么目标Q网络的参数如何来呢？还是从Q网络中来, 只不过是延迟更新. 也就是每次等训练了一段时间再将当前Q网络的参数值复制给目标Q网络.
+
+
 
 **在Q-learning 中仅加入 Experience Replay效果如下:**
 
@@ -183,7 +223,11 @@ NIPS DQN在基本的Deep Q-Learning算法的基础上使用了Experience Replay�
 
 ***思考***:  从学习曲线中可以看出, 分别加入两个机制 都对算法的学习性能有较大的提升, 因其分别减少了数据之间、Q值与目标Q值之间的相关性, 降低了overfitting 和过度估计的可能性, 因此可推断同时加入两个极致应该有更大的提升. 
 
+
+
 #### Double Q-learning
+
+
 
 在上面的 target-parameter 中, 对于target Q值 与目前Q 值, 我们使用同一个Q网络, 只不过参数更新的频率不一样.
 
@@ -201,7 +245,11 @@ NIPS DQN在基本的Deep Q-Learning算法的基础上使用了Experience Replay�
 
 ***思考***:  减少目标Q值计算的过度估计 看起来也有积极的效果对于提升算法的性能
 
-#### Atari Game(pong、Boxing、Mspacman)：
+
+
+### Atari Game(pong、Boxing、Mspacman)：
+
+
 
 这里我们关注经典强化学习算法在 Atari 游戏上的 表现, (Pong、Mspcaman、Boxing), 相应的 我们用cnn 代替上面的前馈神经网络和线性转换作为动作值函数近似. 
 
@@ -227,11 +275,23 @@ epsilon rate =0.1、discount count=0.99、设置环境给的reward 为-1或0或1
 
 #### Random Policy
 
+
+
 使用随机策略 观测 各个游戏 的平均回报 与时长.
+
+
 
 #### untrained Cnn+DQN
 
+
+
 使用没有训练过的卷积神经网络作为 动作值函数的近似, 根据初始化的参数进行游戏, 观察DQN 算法在各个游戏上的效果. 
+
+
+
+------
+
+
 
 ### 相关的链接:
 
