@@ -73,7 +73,7 @@ pip install -e .[atari]
 
 首先我们搭建、调通一些经典的强化学习算法, 包括batch(offline) Q-learng、online Q-learning、Deep Q-Network, Double-Q-learning, 在经典的平衡杆(Cart-Pole )游戏测试每个算法的表现.
 
-由于平衡杆游戏每次给的的反馈是一个 四维数组<img src="https://latex.codecogs.com/gif.latex?[S_t,S_{t&plus;1},A,R]" title="[S_t,S_{t+1},A,R]" />, 因此我们只需要用一个前馈神经网络去作为动作值函数近似器.
+由于平衡杆游戏每次给的的反馈是一个 四维数组<img src="https://latex.codecogs.com/gif.latex?[S_t,S_{t&plus;1},A,R]" title="[S_t,S_{t+1},A,R]" />,因此我们只需要用一个前馈神经网络去作为动作值函数近似器.
 
 但在Atari 游戏中, 输入一个action, 游戏系统给的反馈是游戏进行中场景的图片, 因此, 我们用卷积神经网络代替前馈神经网络作为动作值函数近似器. 然后分别在上述的几个强化学习算法中使用.
 
@@ -91,7 +91,7 @@ py文件分别在文件夹three-random-episode和 hundred-random-episode
 
 #### batch (offline) Q-learning
 
-​先收集2000个随机策略下的episodes 数据, 然后仅仅基于收集好的数据, 通过直接训练动作值函数 <img src="https://latex.codecogs.com/gif.latex?Q(S;A)" title="Q(S;A)" /> 来学习控制平衡杆, 在这里我们分别用一个 线性转换 和仅含单层隐藏层(神经元数为100)的前馈神经网络来表达动作值函数, 尝试的学习率分别是 <img src="https://latex.codecogs.com/gif.latex?[10^{-5},10^{-4},10^{-3},10^{-2},10^{-1},0.5]" title="[10^{-5},10^{-4},10^{-3},10^{-2},10^{-1},0.5]" /> 总的训练、更新参数次数为5000，每次训练的数据量为1000; 学习率、优化器分别是 0.001 和Adam.
+先收集2000个随机策略下的episodes 数据, 然后仅仅基于收集好的数据, 通过直接训练动作值函数 <img src="https://latex.codecogs.com/gif.latex?Q(S;A)" title="Q(S;A)" /> 来学习控制平衡杆, 在这里我们分别用一个 线性转换 和仅含单层隐藏层(神经元数为100)的前馈神经网络来表达动作值函数, 尝试的学习率分别是 <img src="https://latex.codecogs.com/gif.latex?[10^{-5},10^{-4},10^{-3},10^{-2},10^{-1},0.5]" title="[10^{-5},10^{-4},10^{-3},10^{-2},10^{-1},0.5]" /> 总的训练、更新参数次数为5000，每次训练的数据量为1000; 学习率、优化器分别是 0.001 和Adam.
 
 实验发现, 相对前馈神经网络, 训练过程中线性转换的动作值函数能更快的控制平衡杆达到300步, 但极易overfitting, 相反前馈神经网络的学习过程表现的更稳定, 最终的学习效果也更好.
 
@@ -139,30 +139,9 @@ py文件分别在文件夹three-random-episode和 hundred-random-episode
 
 Note that with the automatic gradient computation in tensorflow,you must apply a stop gradient operation to avoid adapting the learning target.
 
-
-
-
-       
-
-
-
-
- 
-     Inline  Compressed 
- 
-
-Click here to Download Image (GIF)
-Tweet
-
-ver 3.2
- 
-
- 
 <img src="https://latex.codecogs.com/gif.latex?\delta=R_{t&plus;1}&plus;\gamma*tf.stop\_gradident(max_{A_{t&plus;1}}Q(S_{t&plus;1,A_{t&plus;1}}))-&space;Q(S_{t},A_t)" title="\delta=R_{t+1}+\gamma*tf.stop\_gradident(max_{A_{t+1}}Q(S_{t+1,A_{t+1}}))- Q(S_{t},A_t)" />
+
 <img src="https://latex.codecogs.com/gif.latex?loss=0.5*\delta^{2}" title="loss=0.5*\delta^{2}" />
-
-
-
 
 #### Different Neural Size 
 
@@ -184,7 +163,7 @@ NIPS DQN在基本的Deep Q-Learning算法的基础上使用了Experience Replay�
 
 <img src="https://latex.codecogs.com/gif.latex?Loss=(r&plus;\gamma&space;max_{a^{'}}Q(s^{'},a^{'},w^{-})-Q(s,a,w))^2" title="Loss=(r+\gamma max_{a^{'}}Q(s^{'},a^{'},w^{-})-Q(s,a,w))^2" />
 
-如上面的损失函数公式所示, 计算目标Q值的函数使用的参数是<img src="https://latex.codecogs.com/gif.latex?w^{-}" title="w^{-}" /> 相比之下, Nips 版本DQN 的 目标Q网络是随着Q网络实时更新的, 这样会导致 目标Q值与当前的Q值相关性较大, 容易造成过度估计（over estimation）问题
+如上面的损失函数公式所示, 计算目标Q值的函数使用的参数是<img src="https://latex.codecogs.com/gif.latex?w^{-}" title="w^{-}" />,相比之下, Nips 版本DQN 的 目标Q网络是随着Q网络实时更新的, 这样会导致 目标Q值与当前的Q值相关性较大, 容易造成过度估计（over estimation）问题
 
  因此提出单独使用一个目标Q网络. 那么目标Q网络的参数如何来呢？还是从Q网络中来, 只不过是延迟更新. 也就是每次等训练了一段时间再将当前Q网络的参数值复制给目标Q网络.
 
@@ -218,13 +197,21 @@ NIPS DQN在基本的Deep Q-Learning算法的基础上使用了Experience Replay�
 
 #### Random Policy
 
-#### 
-
-
-
-
-
-
+####
 
 #### Cnn+DQN
+
+
+
+
+
+### 相关的链接:
+
+[Atari+Deep RL](https://arxiv.org/abs/1312.5602)
+
+[Double-Q-learning](http://papers.nips.cc/paper/3964-double-q-learning)
+
+[Deep-RL with Double Q-Learning](https://arxiv.org/abs/1509.06461)
+
+[Human-level control through deep reinforcement learning](https://www.nature.com/articles/nature14236)
 
