@@ -1,0 +1,6 @@
+运行 py文件是 请将train_data_2 放到相应的文件夹, 或者自己改成相应的路径
+
+train data 2 由 offline Q Learning文件夹中的 cartpole_3_collect_data 生成
+
+......saved.py 文件用于训练 和存储 模型
+...... load.py 文件用于 加载存储好的模型参数, 用于测试训练好的模型效果
