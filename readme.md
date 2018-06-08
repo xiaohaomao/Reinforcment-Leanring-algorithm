@@ -140,10 +140,28 @@ py文件分别在文件夹three-random-episode和 hundred-random-episode
 Note that with the automatic gradient computation in tensorflow,you must apply a stop gradient operation to avoid adapting the learning target.
 
 
-$$
-\delta=<img src="https://latex.codecogs.com/gif.latex?R_{t&plus;1}" title="R_{t+1}" />+γ*tf.stop_gradident(<img src="https://latex.codecogs.com/gif.latex?max_{A_{t&plus;1}}Q(S_{t&plus;1,A_{t&plus;1}})" title="max_{A_{t+1}}Q(S_{t+1,A_{t+1}})" />)-<img src="https://latex.codecogs.com/gif.latex?Q(S_{t},A_t)" title="Q(S_{t},A_t)" />
 
-loss=0.5*<img src="https://latex.codecogs.com/gif.latex?\delta^{2}" title="\delta^{2}" />
+
+       
+
+
+
+
+ 
+     Inline  Compressed 
+ 
+
+Click here to Download Image (GIF)
+Tweet
+
+ver 3.2
+ 
+
+ 
+<img src="https://latex.codecogs.com/gif.latex?\delta=R_{t&plus;1}&plus;\gamma*tf.stop\_gradident(max_{A_{t&plus;1}}Q(S_{t&plus;1,A_{t&plus;1}}))-&space;Q(S_{t},A_t)" title="\delta=R_{t+1}+\gamma*tf.stop\_gradident(max_{A_{t+1}}Q(S_{t+1,A_{t+1}}))- Q(S_{t},A_t)" />
+<img src="https://latex.codecogs.com/gif.latex?loss=0.5*\delta^{2}" title="loss=0.5*\delta^{2}" />
+
+
 
 
 #### Different Neural Size 
@@ -164,9 +182,9 @@ NIPS DQN在基本的Deep Q-Learning算法的基础上使用了Experience Replay�
 
 这样做的目的是为了减少目标计算与当前值的相关性.
 
-Loss=(r+γ <img src="https://latex.codecogs.com/gif.latex?max_{a^{'}}Q(s^{'},a^{'},w^{-})-Q(s,a,w))^2" title="max_{a^{'}}Q(s^{'},a^{'},w^{-})-Q(s,a,w))^2" />
+<img src="https://latex.codecogs.com/gif.latex?Loss=(r&plus;\gamma&space;max_{a^{'}}Q(s^{'},a^{'},w^{-})-Q(s,a,w))^2" title="Loss=(r+\gamma max_{a^{'}}Q(s^{'},a^{'},w^{-})-Q(s,a,w))^2" />
 
-如上面的损失函数公式所示, 计算目标Q值的函数使用的参数是$w^{-}$, 相比之下, Nips 版本DQN 的 目标Q网络是随着Q网络实时更新的, 这样会导致 目标Q值与当前的Q值相关性较大, 容易造成过度估计（over estimation）问题
+如上面的损失函数公式所示, 计算目标Q值的函数使用的参数是<img src="https://latex.codecogs.com/gif.latex?w^{-}" title="w^{-}" /> 相比之下, Nips 版本DQN 的 目标Q网络是随着Q网络实时更新的, 这样会导致 目标Q值与当前的Q值相关性较大, 容易造成过度估计（over estimation）问题
 
  因此提出单独使用一个目标Q网络. 那么目标Q网络的参数如何来呢？还是从Q网络中来, 只不过是延迟更新. 也就是每次等训练了一段时间再将当前Q网络的参数值复制给目标Q网络.
 
