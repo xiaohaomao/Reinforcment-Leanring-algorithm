@@ -2,7 +2,7 @@
 
 
 
-## OpenAI Gym  环境的安装
+# OpenAI Gym  环境的安装
 
 ------
 
@@ -71,11 +71,11 @@ pip install -e .[atari]
 
 
 
-## 项目实现步骤
+# 项目实现步骤
 
 ------
 
-### Cart-Pole 游戏:
+## Cart-Pole 游戏:
 
 
 
@@ -89,7 +89,7 @@ pip install -e .[atari]
 
 
 
-#### Random Policy
+### Random Policy
 
 
 
@@ -105,7 +105,7 @@ py文件分别在文件夹three-random-episode和 hundred-random-episode
 
 
 
-#### batch (offline) Q-learning
+### batch (offline) Q-learning
 
 
 
@@ -141,7 +141,7 @@ py文件分别在文件夹three-random-episode和 hundred-random-episode
 
 
 
-#### online Q-learning
+### online Q-learning
 
 
 
@@ -175,7 +175,7 @@ PS:　Note that with the automatic gradient computation in tensorflow,you must a
 
 
 
-#### Different Neural Size 
+### Different Neural Size 
 
 
 
@@ -191,7 +191,7 @@ neural size=1000
 
 
 
-#### Experience Replay and Target Parameter
+### Experience Replay and Target Parameter
 
 
 
@@ -221,11 +221,11 @@ NIPS DQN在基本的Deep Q-Learning算法的基础上使用了Experience Replay�
 
 ![](learning_curve/target_parameter_reward.png)
 
-***思考***:  从学习曲线中可以看出, 分别加入两个机制 都对算法的学习性能有较大的提升, 因其分别减少了数据之间、Q值与目标Q值之间的相关性, 降低了overfitting 和过度估计的可能性, 因此可推断同时加入两个极致应该有更大的提升. 
+***思考***:  从学习曲线中可以看出, 分别加入两个机制 都对算法的学习性能有较大的提升, 因其分别减少了数据之间、Q值与目标Q值之间的相关性, 降低了overfitting 和过度估计的可能性, 因此可推断同时加入两个机制应该有更大的提升. 
 
 
 
-#### Double Q-learning
+### Double Q-learning
 
 
 
@@ -247,7 +247,7 @@ NIPS DQN在基本的Deep Q-Learning算法的基础上使用了Experience Replay�
 
 
 
-### Atari Game(pong、Boxing、Mspacman)：
+## Atari Game(pong、Boxing、Mspacman)：
 
 
 
@@ -273,7 +273,7 @@ epsilon rate =0.1、discount count=0.99、设置环境给的reward 为-1或0或1
 
 
 
-#### Random Policy
+### Random Policy
 
 
 
@@ -281,7 +281,7 @@ epsilon rate =0.1、discount count=0.99、设置环境给的reward 为-1或0或1
 
 
 
-#### untrained Cnn+DQN
+### untrained Cnn+DQN
 
 
 
@@ -293,7 +293,7 @@ epsilon rate =0.1、discount count=0.99、设置环境给的reward 为-1或0或1
 
 
 
-### 相关的链接:
+# 相关的链接:
 
 [Atari+Deep RL](https://arxiv.org/abs/1312.5602)
 
