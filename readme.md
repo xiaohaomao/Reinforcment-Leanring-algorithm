@@ -66,8 +66,87 @@ pip install -e .[atari]
 
 
 > "更多的关于gym环境的documents：" http://gym.openai.com/docs/
+>
+> 
+
+# 使用Google Colab GPU 训练Deep-Q-Network模型
+
+相比于 CartPole游戏的数值输入与输出, Atari 游戏环境给出的是RGB的图片 一般为(210,160,3)格式，而且离散动作空间也相应更大, 因此要求进行更多有效的空间探索, 这需要更大的计算量. 而大的experience replay 对电脑的内存性能要求也更大, 因此使用平常的电脑CPU 进行实验往往十分耗时.由于google 在今年一月份发布了一个免费的GPU 使用项目, 该项目附于google drive 上, 进行文件的管理十分方便, 因此我们使用其进行模型训练.
+
+### 获得google colab授权:
+
+其中需要两次点进出现的网址, 登录谷歌账号授权, 得到相应的key,输入连接成功.
+
+在colab 里,！后输入命令相当于在cmd 终端里输入命令
+
+如下图所示:
 
 
+
+![](learning_curve/Capture_1.JPG)
+
+
+
+```
+!apt-get install -y -qq software-properties-common python-software-properties module-init-tools
+
+!add-apt-repository -y ppa:alessandro-strada/ppa 2>&1 > /dev/null
+
+!apt-get update -qq 2>&1 > /dev/null
+
+!apt-get -y install -qq google-drive-ocamlfuse fuse
+
+from google.colab import auth
+
+auth.authenticate_user()
+
+from oauth2client.client import GoogleCredentials
+
+creds = GoogleCredentials.get_application_default()
+
+import getpass
+
+!google-drive-ocamlfuse -headless -id={creds.client_id} -secret={creds.client_secret} < /dev/null 2>&1 | grep URL
+
+vcode = getpass.getpass()
+
+!echo {vcode} | google-drive-ocamlfuse -headless -id={creds.client_id} -secret={creds.client_secret
+
+```
+
+
+
+```
+!mkdir -p drive
+
+!google-drive-ocamlfuse drive
+
+```
+
+### 安装Gym classical  和 Atari 环境
+
+ 直接安装基本的gym环境
+
+```
+!pip install gym
+```
+
+安装atari 环境的依赖包 swig  和 cmake
+
+```
+!apt install git
+!git clone https://github.com/openai/gym.git
+cd gym
+!apt-get install cmake
+!apt-get install -y python-numpy python-dev cmake zlib1g-dev libjpeg-dev xvfb libav-tools xorg-dev python-opengl libboost-all-dev libsdl2-dev swig 
+# 接着安装 atari #
+!pip install -e '.[atari]
+
+```
+
+现在可以在 colab Notebook 上就测试gym atari 环境了. 
+
+[更多的colab配置信息]: https://www.234du.com/1154.html
 
 
 
@@ -255,7 +334,7 @@ NIPS DQN在基本的Deep Q-Learning算法的基础上使用了Experience Replay�
 
 ***网络设置与数据预处理***
 
-将环境给的每一张反馈图片压缩成28×28×1的灰阶格式, 将每四张处理过的图片连接在一起(28×28×4),存储格式为(tf.uint8) 
+将环境给的每一张反馈图片压缩成64×64×1的灰阶格式, 将每四张处理过的图片连接在一起(64×64×4),存储格式为(tf.uint8) 
 
 (因为上述的atari 游戏中 每个动作会重复K 遍,以保证设定的合理性，K 随机从 [2,3,4] 中挑选).
 
@@ -342,6 +421,55 @@ Boxing 是两个拳击手在一个舞台上比赛的游戏, 其中黑色拳击�
 
 
 ![](learning_curve/boxing313.png)
+
+### 实验结果与建议
+
+在编写三个游戏的代码中, 我们将reward设置成 1, 0 或者 -1, 接着我们使用 tf.stop_gradient 来计算目标Q 值  
+
+```
+tf.add(x3 + discount * tf.stop_gradient((1+x3)*Max_Q_value_next), (-1 * Q_value))
+```
+
+相对于用DQN 训练Cartpole, Atari 游戏需要多得多的训练时间:
+
+CartPole: CPU-------训练 20分钟即可得到一个比较稳定且高效的agent,
+
+Atari:   Colab -GPU , 一个episode 1分多钟,  大概至少要训练1000个episode, agent
+
+​            才能展现比较好的性能, 在训练过程中, 虽然loss 能比较快的下降, 但 测试 得分(reward)
+
+​            要在几十万步以后才表现出逐渐提升的趋势.
+
+
+
+由于需要大量的训练量, 建议大约每50000步进行一次模型的测评, 也可以尝试不同的reshape size, 例如 (28,28) 与(128,128) 有着十分巨大的清晰度差别.
+
+如下图所示:
+
+Boxing:
+
+![Boxing_28_28](learning_curve/boxing_28_28.png)
+
+![Boxing_128_128](learning_curve/boxing_128_128.png)
+
+
+Pong： 
+
+![Pong_28_28](learning_curve/pong_28_28.png)
+
+​                                        ![Pong_128_128](learning_curve/pong_128_128.png)
+
+MsPacman: 
+
+​                                          ![MsPacman_28_28](learning_curve/mspacman_28_28.png)
+
+​                                         ![MsPacman_128_128](learning_curve/mspacman_128_128.png)
+
+
+
+
+
+如果机器允许, 也可以构建更大规格的experience replay
 
 
 
