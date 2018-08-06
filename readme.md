@@ -255,9 +255,13 @@ NIPS DQN在基本的Deep Q-Learning算法的基础上使用了Experience Replay�
 
 ***网络设置与数据预处理***
 
-将环境给的每一张反馈图片压缩成28×28×1的灰阶格式, 将每四张处理过的图片连接在一起(28×28×4),存储格式为(tf.uint8) , 环境的名称分别为“Pong-v0”, “MsPacman-v0”, and “Boxing-v0” (没有-ram).
+将环境给的每一张反馈图片压缩成28×28×1的灰阶格式, 将每四张处理过的图片连接在一起(28×28×4),存储格式为(tf.uint8) 
 
-使用卷积神经网络近似Q-function. 第一层的过滤器大小为6×6、步长为2、16个channel, 连接Relu 激活函数;
+(因为上述的atari 游戏中 每个动作会重复K 遍,以保证设定的合理性，K 随机从 [2,3,4] 中挑选).
+
+环境的名称分别为“Pong-v0”, “MsPacman-v0”, and “Boxing-v0” (没有-ram).
+
+使用卷积神经网络近似Q-value-function. 第一层的过滤器大小为6×6、步长为2、16个channel, 连接Relu 激活函数;
 
 第二层的过滤器大小为4×4、步长为2、32个channel, 连接Relu 激活函数;
 
@@ -269,23 +273,85 @@ epsilon rate =0.1、discount count=0.99、设置环境给的reward 为-1或0或1
 
 优化器为 RMSProp 、learning rate=0.001.
 
-加入 experience replay(至少100000 transitions) 和 target network(更新 每5000步) 机制在Q-Learning .
+加入 experience replay(至少100000 transitions) 和 target network(更新 每训练5个episode) 机制在Q-Learning .
 
 
 
 ### Random Policy
 
-
-
 使用随机策略 观测 各个游戏 的平均回报 与时长.
 
+### Cnn+DQN for three games
+
+##### MsPacman：
+
+MsPacman 是一个假人在一个固定的环境中尽量躲避敌人并得分的游戏, 每次被敌人碰到就会丧失一次机会,一共有三次机会,  没有时间限制, 目的是尽可能的获得高的分数. 
+
+MsPacman 的动作空间维度是9, 是从数字0到8的离散空间, gym 游戏中给出的reward 空间为[0, 10, 50],
+
+为了简便, 在我们的代码中, 我们将reward 控制成0  或 1.
+
+当得分增加时, 相对应的reward 不管10 还是50 均设置为 1,否则 reward 为0.
+
+然而,由于游戏中可以检测出什么时候被敌人碰到并丧失一次机会，即观察每步给出的 info 信息 {'ale.lives': 3}
+
+里面的数目即剩余的机会数,  因此可以设置当丧失一次机会时, reward 为 -1, 这样可以增加reward的合理性.
+
+场景如下图所示:
+
+![](learning_curve/MsPacman0.png)
 
 
-### untrained Cnn+DQN
+
+![](learning_curve/MsPacman301.png)
 
 
 
-使用没有训练过的卷积神经网络作为 动作值函数的近似, 根据初始化的参数进行游戏, 观察DQN 算法在各个游戏上的效果. 
+
+
+##### Pong：
+
+Pong 是两块不同颜色的板砖在玩类似于乒乓球的游戏, 红色是由电脑控制, 绿色则由我们的agent 控制. 小白球在两方之间受初始外力作用开始有规律的移动, 而板砖只能在竖直方向进行上下移动,通过碰撞改变小白球移动的方向, 哪方没有接住小白球致使其超过底线, 判断哪方输, 相应的 赢得一方则加上一分, 分数展示在相应位置的上方, 抢先获得21分的一方获胜, 没有时间限制 .
+
+其中, agent 的动作空间维度是6, 是数字0 到5 的离散空间; gym游戏中给出的reward空间为[-1,0,1], 刚好符合我们的设定.
+
+
+
+游戏过程如下图所示:
+
+
+
+![](learning_curve/Pong19.png)
+
+
+
+![](learning_curve/Pong256.png)
+
+
+
+
+
+##### Boxing:
+
+Boxing 是两个拳击手在一个舞台上比赛的游戏, 其中黑色拳击手为电脑控制, 白色拳击手是我们的agent. 目的是在2分钟时间赢得比赛(获得比对手多的分数). 拳击手可以在舞台上进行任意的移动或者出拳. 其中 动作空间维度为18，是数字0到17的离散空间. reward 相对于前两种游戏更多样化, 为[-1,-2,0,1,2] , 这样也更符合拳击比赛的定义,比如重拳得分. 但为了更方便的实验, 我们这里也采用[-1,0,1]的设定.
+
+其中比赛过程如下图所示：
+
+![](learning_curve/boxing0.png)
+
+
+
+![](learning_curve/boxing313.png)
+
+
+
+
+
+ 
+
+
+
+
 
 
 
